@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Jared Pace"]
   s.email       = ["jared@codeword.io"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Sends a reimbursement form for your ATT cell phone bill}
+  s.description = %q{Automate sending reimbursement forms for your cell phone account, if your company does that sort of thing}
 
   s.rubyforge_project = "celly"
 
@@ -20,5 +20,7 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
+
+  s.add_runtime_dependency 'capybara'
+  s.add_runtime_dependency 'capybara-webkit'
 end
