@@ -1,5 +1,3 @@
-require 'pathname'
-
 module Celly
   module Config
 
@@ -10,6 +8,10 @@ module Celly
 
     def self.config_file
       Pathname.new File.join(ENV['HOME'], '.cellyrc')
+    end
+
+    def self.template
+      Celly.root.join('templates/cellyrc').read
     end
 
     private

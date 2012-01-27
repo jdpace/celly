@@ -3,6 +3,7 @@ require "celly/config"
 require "celly/driver/att"
 require "celly/invoice"
 require 'pony'
+require 'pathname'
 
 module Celly
 
@@ -26,6 +27,10 @@ module Celly
 
   def self.config
     @config = Celly::Config.load
+  end
+
+  def self.root
+    @root ||= Pathname.new File.expand_path(File.join(__FILE__, '../..'))
   end
 
 end

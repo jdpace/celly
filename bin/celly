@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+require 'celly'
+
+action = ARGV.first || 'default'
+
+unless %w(default install help).include?(action)
+  puts "Unrecognized action: #{action}"
+  exit 1
+end
+
+case action
+when 'default'
+
+  Celly.do_your_thing
+
+when 'install'
+
+  require 'fileutils'
+  File.open(Celly::Config.config_file, 'w') {|f| f << Celly::Config.template}
+  puts "Please edit #{Celly::Config.config_file} to configure Celly"
+
+when 'help'
+
+  puts "Celly: Sweet Gem to file your monthly cell phone reimbursement reports"
+  puts "  Usage: celly (help|install)"
+
+end
