@@ -7,7 +7,7 @@ module Celly
 
       Capybara.app_host = 'https://www.att.com'
 
-      attr_accessor :username, :password, :bill_total, :screenshot
+      attr_accessor :username, :password, :bill_total, :bill_period, :screenshot
 
       def initialize(username, password)
         self.username = username
@@ -19,6 +19,7 @@ module Celly
 
         session.visit '/view/statementHistoryReflectionAction.doview'
         session.within('#subsections table tbody tr:first-child') do
+          self.bill_period = session.find('td:first-child nobr').text
           self.bill_total = session.find('td.forceRight').text
           session.click_link 'View'
         end
@@ -30,6 +31,17 @@ module Celly
 
       def bill_total=(total)
         @bill_total = total.to_s.gsub(/[^\d\.,]+/,'').to_f
+      end
+
+      def bill_period=(period)
+        start_date, end_date = period.split('-').map {|stamp| parse_date stamp.strip}
+        @bill_period = (start_date..end_date)
+      end
+
+      private
+
+      def session
+        @session ||= Capybara::Session.new :selenium
       end
 
       def sign_in
@@ -46,8 +58,9 @@ module Celly
         @signed_in
       end
 
-      def session
-        @session ||= Capybara::Session.new :selenium
+      def parse_date(mdy)
+        m, d, y = mdy.split('/').map(&:to_i)
+        Date.civil y, m, d
       end
 
     end
